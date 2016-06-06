@@ -1,3 +1,4 @@
+'use strict';
 var assert = require('assert')
 var sinon = require('sinon')
 
@@ -11,6 +12,7 @@ const testClient = new SekandoCloudClient({
 })
 const testClusterManager = testClient.clusterManager()
 const testClusterId = process.env.SEKANDO_TEST_CLUSTER_ID
+const testMemberId = 'test-member'
 
 const ClusterMember = require(process.cwd()+'/lib/cluster-manager/cluster-member')
 
@@ -49,9 +51,8 @@ describe('ClusterManager',function(){
     describe('get',function(){
       it('should work',function(){
         const cluster = testClusterManager.clusterWithId(testClusterId)
-        return cluster.getMembers()
-          .then(function(members){
-            const member = members[0]
+        return cluster.getMemberWithId(testMemberId)
+          .then(function(member){
             delete member.created
             return member.get()
           }).then(function(member){
@@ -62,11 +63,17 @@ describe('ClusterManager',function(){
     describe('change event',function(){
       it('should be emitted when change happens',function(done){
         const cluster = testClusterManager.clusterWithId(testClusterId)
-        cluster.getMembers()
-          .then(function(members){
-            const member = members[0]
+        cluster.getMemberWithId(testMemberId)
+          .then(function(member){
             const newMetadata = String(Math.random()*1000000)
-            member.once('change',function(){
+            let updated = false
+            let fired = false
+            member.on('change',function(){
+              if(!updated || fired){
+                return;
+              }
+              fired = true
+              console.log('change')
               assert.equal(newMetadata,member.metadata)
               member.once('change',function(){
                 assert.equal('yaay',member.metadata)
@@ -77,6 +84,7 @@ describe('ClusterManager',function(){
               })
             })
             member.setMetadata(newMetadata).then(function(){
+              updated = true
               console.log('ヽ(ﾟ∀ﾟ)ﾉ')
             })
           })
