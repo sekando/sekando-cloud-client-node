@@ -1,7 +1,7 @@
 {
   "name": "sekando-cloud-client",
-  "version": "0.0.0",
-  "description": "",
+  "version": "0.0.1-beta.0",
+  "description": "Node.js client for Sekando Cloud APIs",
   "main": "index.js",
   "scripts": {
     "test": "bin/test.sh"
