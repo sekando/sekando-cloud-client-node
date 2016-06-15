@@ -7,6 +7,10 @@
     "test": "bin/test.sh"
   },
   "author": "Ricky Miller <ricky@ricky.me>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/richardkazuomiller/sekando-cloud-client.git"
+  },
   "license": "MIT",
   "devDependencies": {
     "assert": "1.3.0",
