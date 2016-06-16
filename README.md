@@ -76,7 +76,7 @@ Fetches cluster members. Returns promise. Resolves with array of `ClusterMember`
 ````
 const cluster = testClusterManager.clusterWithId(myClusterId)
 cluster.getMembers()
-  .then(function(members){
+  .then(members => {
     members.forEach(member => {
       // do something
     })
@@ -104,7 +104,7 @@ Fetches member with given ID. Returns promise. Resolves with `ClusterMember` obj
 ````
 const cluster = testClusterManager.clusterWithId(myClusterId)
 cluster.getMemberWithId('test-member')
-  .then(function(member){
+  .then(member => {
     // do something
   })
 ````
